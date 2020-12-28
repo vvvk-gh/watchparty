@@ -8,7 +8,6 @@ app.use(express.json());
 app.use('/' ,  express.static(path.join(__dirname , "/public")));
 
 
-
 app.listen(PORT , ()=>{
-    console.log(`App listening on http://localhost:${PORT}`);
-})
+    console.log(`App listening on http://localhost:${PORT}`)
+});
