@@ -62,6 +62,22 @@ io.on('connection', (socket)=>{
         io.emit('toggletoall');
     })
 
+    socket.on('changeicon' , ()=>{
+        io.emit('changeicontoall');
+    });
+    socket.on('skip' , (value)=>{
+        io.emit('skiptoall' , value);
+    });
+    socket.on('handleRange' , (data)=>{
+        io.emit('handleRangetoall' , data);
+    });
+    socket.on('handleProgress' , ()=>{
+        io.emit('handleProgresstoall');
+    });
+    socket.on('scrub' , (scrubTime)=>{
+        io.emit('scrubtoall' , scrubTime) ;
+    });
+
 })
 
 app.use('/' , express.static(__dirname + '/public'))

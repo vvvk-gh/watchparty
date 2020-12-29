@@ -12,6 +12,8 @@ function validateUser(){
 socket.on('logged_in' , (data)=>{      
   loginBox.classList.add('hide');
   chatBox.classList.remove('hide');
+  video.classList.remove('hide');
+  controls.classList.remove('hide');
   displayUser.innerText = `Hi ${data.username} ,`;  
 })
 
@@ -40,6 +42,9 @@ socket.on('msg_rcvd' , (data)=>{
 })
 
 chatBox.classList.add('hide');
+video.classList.add('hide');
+controls.classList.add('hide');
+
 //login button clicked
 loginBtn.addEventListener('click' , validateUser)
 
@@ -58,29 +63,58 @@ socket.on('toggletoall' ,()=>{
   video[method]();
 })
 
-function updateButton() {
-  const icon = this.paused ? '▶' : '⏸';
-  console.log(icon);
-  toggle.textContent = icon;
+function updateButton(e) {
+  socket.emit('changeicon' , e);
 }
 
-function skip() {
- video.currentTime += parseFloat(this.dataset.skip);
+socket.on('changeicontoall' ,()=>{
+  const icon = video.paused ? '▶' : '⏸';
+  toggle.textContent = icon;
+})
+
+
+
+function skip(e) {
+  let value = e.target.getAttribute('data-skip');
+  socket.emit('skip', value)
 }
+
+socket.on('skiptoall' , (value)=>{
+  //console.log(value);
+  video.currentTime += parseFloat(value);
+})
 
 function handleRangeUpdate() {
-  video[this.name] = this.value;
+  socket.emit('handleRange' , {name : this.name , value: this.value});
 }
 
+
+socket.on('handleRangetoall' ,(data)=>{
+  video[data.name] = data.value;
+})
+
+
+
+
 function handleProgress() {
+  socket.emit('handleProgress');
   const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
 }
 
+socket.on('handleProgresstoall' , ()=>{
+  const percent = (video.currentTime / video.duration) * 100;
+  progressBar.style.flexBasis = `${percent}%`;
+})
+
 function scrub(e) {
   const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
-  video.currentTime = scrubTime;
+  socket.emit('scrub' , scrubTime);
 }
+
+socket.on('scrubtoall' ,(scrubTime)=>{  
+  video.currentTime = scrubTime;
+})
 
 /* Hook up the event listeners */
 video.addEventListener('click', togglePlay);
