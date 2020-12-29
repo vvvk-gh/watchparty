@@ -94,12 +94,10 @@ socket.on('handleRangetoall' ,(data)=>{
 })
 
 
-
-
 function handleProgress() {
   socket.emit('handleProgress');
-  const percent = (video.currentTime / video.duration) * 100;
-  progressBar.style.flexBasis = `${percent}%`;
+  // const percent = (video.currentTime / video.duration) * 100;
+  // progressBar.style.flexBasis = `${percent}%`;
 }
 
 socket.on('handleProgresstoall' , ()=>{
