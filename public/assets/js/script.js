@@ -1,32 +1,62 @@
-/* Get Our Elements */
-const player = document.querySelector('.player');
-const video = player.querySelector('.viewer');
-const progress = player.querySelector('.progress');
-const progressBar = player.querySelector('.progress__filled');
-const toggle = player.querySelector('.toggle');
-const skipButtons = player.querySelectorAll('[data-skip]');
-const ranges = player.querySelectorAll('.player__slider');
+document.addEventListener("DOMContentLoaded", function(event) {
+    
+let socket = io();
 
-const ulList = document.querySelector('#ulList')
-
-const send = document.querySelector('#submit');
-const msg_box = document.querySelector('#msg_box');
-
-function addList(){
-
-  let li = document.createElement('li');
-  li.innerText = msg_box.value;
-  ulList.appendChild(li);
-
+function validateUser(){
+  socket.emit('login' , {
+            username : loginInput.value,
+            password : loginPass.value,
+        })    
 }
 
-send.addEventListener('click', addList);
+socket.on('logged_in' , (data)=>{      
+  loginBox.classList.add('hide');
+  chatBox.classList.remove('hide');
+  displayUser.innerText = `Hi ${data.username} ,`;  
+})
+
+
+socket.on('login_failed' , ()=>{
+  alert('Invalid Username or Password');
+});
+
+
+socket.on('unfilled' , ()=>{
+alert('Please eneter a valid Username and password')
+})
+
+function sendMsg(){
+  socket.emit('msg_send' , {
+            msg: msgBox.value,        
+            username : loginInput.value,
+            to: toUser.value
+        })
+}
+
+socket.on('msg_rcvd' , (data)=>{
+  let li = document.createElement('li');
+  li.innerText = `[${data.from}] : ${data.msg}`;
+  ulList.appendChild(li);
+})
+
+chatBox.classList.add('hide');
+//login button clicked
+loginBtn.addEventListener('click' , validateUser)
+
+//send button got clicked
+sendMsgBtn.addEventListener('click' , sendMsg)
+
+
 
 /* Build out functions */
 function togglePlay() {
+  socket.emit('togglePlay');
+}
+
+socket.on('toggletoall' ,()=>{
   const method = video.paused ? 'play' : 'pause';
   video[method]();
-}
+})
 
 function updateButton() {
   const icon = this.paused ? '▶' : '⏸';
@@ -68,3 +98,12 @@ progress.addEventListener('click', scrub);
 progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
 progress.addEventListener('mousedown', () => mousedown = true);
 progress.addEventListener('mouseup', () => mousedown = false);
+
+});
+
+
+
+
+
+
+

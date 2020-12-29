@@ -22,15 +22,27 @@
           </div>
         </div> 
         
-        <div class="chat_box">
-            <h1>Chat Box</h1>
-            <input type="text" name="msg" id="msg_box" placeholder="Enter your message">
-            <input type="submit" id="submit" value="Send">
-            <ul id="ulList">
-            </ul>
+        <div class="chat_section">
+            <p id="displayUser" style="text-align: right;">Please Enter Your name to chat</p>
+        
+        <div id ="loginBox">
+            <h4>Login</h4>
+            <input type = "text" id="loginInput" placeholder="Username"/>
+            <input type = "password" id="loginPass" placeholder="Password"/>
+            <button id="loginBtn">Login</button>
+        </div>
+        <br>
+        <div id ="chatBox">
+                <h4>Chat</h4>
+                <input type ="text" id="toUser" placeholder="send to (default to everyone)"/>
+                <input type ="text" id="msgBox" placeholder="Enter message"/>
+            <button id ="sendMsgBtn">Send</button>
+            <ul id="ulList"></ul>
+        </div>
         </div> 
 </div>
-     
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./assets/js/consts.js"></script>
        <script src="./assets/js/script.js"></script>
 </body>
 </html>
