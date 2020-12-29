@@ -1,8 +1,9 @@
-const http = require('http')
-const express = require('express')
-const app = express() 
+const http = require('http');
+const express = require('express');
+const app = express(); 
 const socketio = require('socket.io');
 const port = process.env.PORT || 8888;
+
 //creating an http server as socket.io works on top of http
 //so converting express into http sever
 const server = http.createServer(app)
@@ -11,7 +12,7 @@ const io = socketio(server);
 let Users ={};
 let socketMap = {};
 io.on('connection', (socket)=>{
-    console.log(`Connected to the socket : ${socket.id}`)
+    // console.log(`Connected to the socket : ${socket.id}`)
 
 
     function login(s ,u,d){
@@ -19,7 +20,7 @@ io.on('connection', (socket)=>{
         s.emit('logged_in' , d)
         //creating an object containing socket.id:user for each login  
         socketMap[s.id] = u
-        console.log(socketMap)
+        // console.log(socketMap)
     }
 
     socket.on('login', (data)=>{
@@ -53,7 +54,7 @@ io.on('connection', (socket)=>{
         if(data.to){
             io.to(data.to).emit('msg_rcvd' ,data)
         }else{
-            socket.broadcast.emit('msg_rcvd' ,data)
+            io.emit('msg_rcvd' ,data)
         }
 
     })
@@ -84,4 +85,4 @@ app.use('/' , express.static(__dirname + '/public'))
 
 server.listen(port ,()=>{
     console.log(`Listening at http://localhost:${port}`);
-})
+});

@@ -9,7 +9,7 @@
 <body>
    <div class="container">
     <div class ="player">
-        <video class="player_video viewer" src="./assets/wakebunny.mp4" autoplay></video>
+        <video class="player_video viewer" src="./assets/movie.mp4" autoplay></video>
         <div class="player__controls">
             <div class="progress">
              <div class="progress__filled"></div>
@@ -21,23 +21,32 @@
             <button data-skip="25" class="player__button">25s »</button>
           </div>
         </div> 
-        
+   
         <div class="chat_section">
-            <p id="displayUser" style="text-align: right;">Please Enter Your name to chat</p>
+            <p id="displayUser">Please enter your name to join</p>
         
         <div id ="loginBox">
             <h4>Login</h4>
             <input type = "text" id="loginInput" placeholder="Username"/>
+            <br>
+            <br>
             <input type = "password" id="loginPass" placeholder="Password"/>
+            <br>
+            <br>
             <button id="loginBtn">Login</button>
         </div>
         <br>
         <div id ="chatBox">
-                <h4>Chat</h4>
-                <input type ="text" id="toUser" placeholder="send to (default to everyone)"/>
-                <input type ="text" id="msgBox" placeholder="Enter message"/>
-            <button id ="sendMsgBtn">Send</button>
             <ul id="ulList"></ul>
+                <h3>Chat</h3>
+                <input type ="text" id="toUser" placeholder="send to (default to everyone)"/>
+                <br>
+                <br>
+                <input type ="text" id="msgBox" placeholder="Enter message"/>
+                <br>
+                <br>
+            <button id ="sendMsgBtn">Send</button>
+            
         </div>
         </div> 
 </div>
